@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="projects/graffiti-1450798_1280.jpg" type="image/x-icon">
+    <meta name="description" content="randomquoteapi,random11,get free quotes">
+    <meta name="keywords" content="randomquoteapi,random11,get free quotes">
+    <title>random qoute generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            background: url("projects/graffiti-1450798_1280.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .con {
+            width: 500px;
+            max-height: 500px;
+            min-height: 200px;
+            padding: 20px 20px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.238);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0),
+                -10px -10px 20px rgba(0, 0, 0, 0),
+                10px 10px 20px rgba(0, 0, 0, 0);
+            overflow: hidden;
+            z-index: 99;
+            backdrop-filter: blur(2px);
+
+        }
+        @font-face {
+            font-family: 'Satisfy', cursive;
+            src: url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
+        }
+        .con h4 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 40px;
+            margin-top: 0;
+            color:black;
+
+        }
+
+        .con #content {
+            color: white;
+            margin-top: 20px;
+            font-size: 25px;
+            line-height: 30px;
+            font-family:'Satisfy', cursive;
+        }
+
+        .con #result {
+            color:black;
+            float: right;
+            margin-top: 8px;
+            font-size: 22px;
+            font-family:'Satisfy', cursive;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="con">
+        <h4>quote generator</h4>
+        <p id="content"></p>
+        <p id="result"></p>
+    </div>
+</body>
+<script>
+    let current = 0
+    let quote = document.getElementById("content")
+    let result = document.getElementById("result")
+    if (current == 0) {
+        let p = fetch('https://dummyjson.com/quotes?limit=100&skip=0')
+        console.log(p);
+        p.then((res) => {
+            return res.json()
+        }).then((data) => {
+            quote.innerText = `"${data.quotes[current].quote}"`
+            result.innerText = `--- ${data.quotes[current].author}`
+        })
+        current++
+    }
+    if(current>0){
+        setInterval(() => {
+            if (current > 0) {
+                current++
+            }
+            if (current > 100) {
+                current = 0
+            }
+            let p = fetch('https://dummyjson.com/quotes?limit=100&skip=0')
+            p.then((res) => {
+                return res.json()
+            }).then((data) => {
+                quote.innerText = `"${data.quotes[current].quote}"`
+                result.innerText = `--- ${data.quotes[current].author}`
+            })
+            console.log(current);
+        }, 10000);
+    }
+
+</script>
+
+</html>
